@@ -4,32 +4,20 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.ContentResolver;
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
@@ -87,10 +75,11 @@ public class LoginActivity extends Activity {
 
     public void onEvent(UserLoginTask.LoginMessageEvent event) {
         showProgress(false);
-        Log.d("onEvent", event.result ? "tak" : "nie");
+        Log.d(this.getClass().getSimpleName(), "Login event recieved");
         if(event.result) {
-            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, ShelfListActivity.class);
+            startActivity(intent);
         } else {
             mPasswordView.setError(getString(R.string.error_incorrect_password));
             mPasswordView.requestFocus();

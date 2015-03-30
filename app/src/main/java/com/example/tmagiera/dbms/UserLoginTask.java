@@ -30,25 +30,27 @@ public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        // TODO: attempt authentication against a network service.
+        boolean result;
 
         try {
-            // Simulate network access.
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            return false;
+            ApiManager apiManager = new ApiManager();
+            result = apiManager.login(mEmail, mPassword);
+        } catch (Exception e) {
+            result = false;
         }
 
-        for (String credential : DUMMY_CREDENTIALS) {
-            String[] pieces = credential.split(":");
-            if (pieces[0].equals(mEmail)) {
-                // Account exists, return true if the password matches.
-                return pieces[1].equals(mPassword);
-            }
-        }
 
-        // TODO: register the new account here.
-        return false;
+//
+//        for (String credential : DUMMY_CREDENTIALS) {
+//            String[] pieces = credential.split(":");
+//            if (pieces[0].equals(mEmail)) {
+//                // Account exists, return true if the password matches.
+//                return pieces[1].equals(mPassword);
+//            }
+//        }
+
+//        // TODO: register the new account here.
+        return result;
     }
 
     @Override

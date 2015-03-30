@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">DBMS</string>
+    <string name="title_contentitem_list">Content</string>
+    <string name="title_contentitem_detail">ContentItem Detail</string>
+    <string name="title_shelf_list">Shelf</string>
+    <string name="title_shelf_detail">Shelf Detail</string>
 </resources>
