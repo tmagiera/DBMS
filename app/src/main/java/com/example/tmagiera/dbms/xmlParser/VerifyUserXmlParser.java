@@ -1,9 +1,9 @@
-package com.example.tmagiera.dbms.xmlParsers;
+package com.example.tmagiera.dbms.xmlParser;
 
 import android.util.Log;
 import android.util.Xml;
 
-import com.example.tmagiera.dbms.ApiXmlParser;
+import com.example.tmagiera.dbms.XmlParser;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -24,18 +24,18 @@ import java.util.Date;
  <data>%3Csession%3E61329a6af34462eb4525e79ccf04d731.9a24a4dbacebb23d05f205a4e74cb1a5%3C...</data>
  </response>
  */
-public class VerifyUserXmlParser extends ApiXmlParser {
+public class VerifyUserXmlParser extends XmlParser {
 
     private static final String ns = null;
 
-    public LoginResponseEntity parse(String xml) throws XmlPullParserException, IOException {
+    public VerifyUserResponseEntity parse(String xml) throws XmlPullParserException, IOException {
         XmlPullParser parser = Xml.newPullParser();
         parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
         parser.setInput(new ByteArrayInputStream(Charset.forName("UTF-16").encode(xml).array()), null);
         parser.nextTag();
         String result = readData(parser);
         if (result == null) {
-            Log.d(this.getClass().getSimpleName(), "Cannot find data field in response due to returned error code");
+            Log.d(this.getClass().getSimpleName(), "Cannot find data field in response due to returned error title");
             return null;
         }
 
@@ -50,13 +50,13 @@ public class VerifyUserXmlParser extends ApiXmlParser {
 
         parser.setInput(new ByteArrayInputStream(Charset.forName("UTF-16").encode(decoded).array()), null);
         parser.nextTag();
-        LoginResponseEntity loginResponseEntity = readDataContent(parser);
+        VerifyUserResponseEntity verifyUserResponseEntity = readDataContent(parser);
 
-        return loginResponseEntity;
+        return verifyUserResponseEntity;
     }
 
-    private LoginResponseEntity readDataContent(XmlPullParser parser) throws XmlPullParserException, IOException {
-        LoginResponseEntity loginResponseEntity = new LoginResponseEntity();
+    private VerifyUserResponseEntity readDataContent(XmlPullParser parser) throws XmlPullParserException, IOException {
+        VerifyUserResponseEntity verifyUserResponseEntity = new VerifyUserResponseEntity();
 
         parser.require(XmlPullParser.START_TAG, ns, "data");
         while (parser.next() != XmlPullParser.END_TAG) {
@@ -69,13 +69,13 @@ public class VerifyUserXmlParser extends ApiXmlParser {
             if (!name.isEmpty()) {
                 switch (name) {
                     case "session":
-                        loginResponseEntity.session = readText(parser);
+                        verifyUserResponseEntity.session = readText(parser);
                         break;
                     case "id":
-                        loginResponseEntity.id = Integer.parseInt(readText(parser));
+                        verifyUserResponseEntity.id = Integer.parseInt(readText(parser));
                         break;
                     case "name":
-                        loginResponseEntity.name = readText(parser);
+                        verifyUserResponseEntity.name = readText(parser);
                         break;
                     default:
                         skip(parser);
@@ -85,10 +85,10 @@ public class VerifyUserXmlParser extends ApiXmlParser {
             }
         }
 
-        return loginResponseEntity;
+        return verifyUserResponseEntity;
     }
 
-    public class LoginResponseEntity {
+    public class VerifyUserResponseEntity {
         public String session;
         public String clientCode;
         public int id;
@@ -102,7 +102,7 @@ public class VerifyUserXmlParser extends ApiXmlParser {
         public int availableQuota;
         public int totalQuota;
 
-        LoginResponseEntity() {
+        VerifyUserResponseEntity() {
         }
 
         public boolean isLoggedIn() {

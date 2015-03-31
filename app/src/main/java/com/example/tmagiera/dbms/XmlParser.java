@@ -15,7 +15,7 @@ import java.io.IOException;
  <data>%3Csession%3E61329a6af34462eb4525e79ccf04d731.9a24a4dbacebb23d05f205a4e74cb1a5%3C...</data>
  </response>
  */
-abstract public class ApiXmlParser {
+abstract public class XmlParser {
 
     protected static final String ns = null;
 

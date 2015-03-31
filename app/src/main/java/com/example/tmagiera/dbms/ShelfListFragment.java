@@ -3,11 +3,14 @@ package com.example.tmagiera.dbms;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.tmagiera.dbms.dummy.DummyContent;
+import com.example.tmagiera.dbms.tasks.GetShelfContentTask;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * A list fragment representing a list of Shelf. This fragment
@@ -70,13 +73,25 @@ public class ShelfListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                DummyContent.ITEMS));
+        EventBus.getDefault().register(this);
+
     }
+
+
+    public void onEvent(GetShelfContentTask.ShelfContentMessageEvent event) {
+        Log.d(this.getClass().getSimpleName(), "get shelf content event recieved");
+        if(event.results != null) {
+            ContentLoader contentLoader = new ContentLoader(event.results);
+
+            setListAdapter(new ArrayAdapter<ContentEntity>(
+                    getActivity(),
+                    android.R.layout.simple_list_item_activated_1,
+                    android.R.id.text1,
+                    ContentLoader.getItems()));
+        } else {
+        }
+    }
+
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -115,7 +130,7 @@ public class ShelfListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        mCallbacks.onItemSelected(ContentLoader.getItems().get(position).getCode());
     }
 
     @Override

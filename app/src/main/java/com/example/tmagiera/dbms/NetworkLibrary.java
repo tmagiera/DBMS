@@ -17,8 +17,8 @@ public class NetworkLibrary {
 
             URL url = new URL(location);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(10000 /* milliseconds */);
-            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setReadTimeout(30000 /* milliseconds */);
+            conn.setConnectTimeout(60000 /* milliseconds */);
             conn.setRequestMethod("GET");
             conn.setDoInput(true);
             conn.connect();
