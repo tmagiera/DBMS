@@ -3,6 +3,12 @@ package com.example.tmagiera.dbms;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.example.tmagiera.dbms.tasks.GetShelfContentTask;
+
+import de.greenrobot.event.EventBus;
 
 
 /**
@@ -35,6 +41,8 @@ public class ShelfListActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shelf_list);
 
+        EventBus.getDefault().register(this);
+
         if (findViewById(R.id.shelf_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-large and
@@ -49,7 +57,18 @@ public class ShelfListActivity extends FragmentActivity
                     .setActivateOnItemClick(true);
         }
 
-        // TODO: If exposing deep links into your app, handle intents here.
+
+        GetShelfContentTask getShelfContentTask = new GetShelfContentTask(ApiHandler.getSessionId());
+        getShelfContentTask.execute((Void) null);
+    }
+
+
+    public void onEvent(GetShelfContentTask.ShelfContentMessageEvent event) {
+        Log.d(this.getClass().getSimpleName(), "get shelf content event recieved");
+        if(event.results != null) {
+            Toast.makeText(this, "Content list updated", Toast.LENGTH_SHORT).show();
+        } else {
+        }
     }
 
     /**

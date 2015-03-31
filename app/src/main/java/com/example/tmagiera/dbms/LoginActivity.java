@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tmagiera.dbms.tasks.LoginTask;
+
 import de.greenrobot.event.EventBus;
 
 
@@ -30,7 +32,7 @@ public class LoginActivity extends Activity {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    private LoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -71,9 +73,12 @@ public class LoginActivity extends Activity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        mAuthTask = new LoginTask("lrzemek@ydp.eu", "1234");
+        mAuthTask.execute((Void) null);
     }
 
-    public void onEvent(UserLoginTask.LoginMessageEvent event) {
+    public void onEvent(LoginTask.LoginMessageEvent event) {
         showProgress(false);
         Log.d(this.getClass().getSimpleName(), "Login event recieved");
         if(event.result) {
@@ -139,7 +144,7 @@ public class LoginActivity extends Activity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new LoginTask(email, password);
             mAuthTask.execute((Void) null);
         }
     }
