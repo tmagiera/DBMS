@@ -64,7 +64,6 @@ public class GetEbooksXmlParser extends XmlParser {
                 }
                 GetEbooksResponseEntity getEbooksResponseEntity = readDataContent(parser);
                 if (getEbooksResponseEntity != null) {
-                    Log.d(this.getClass().getSimpleName(), "Retreiving new content details with title " + getEbooksResponseEntity.title);
                     contentListResponseEntities.add(getEbooksResponseEntity);
                 }
             }
@@ -95,6 +94,9 @@ public class GetEbooksXmlParser extends XmlParser {
                     case "thumbnail":
                         getEbooksResponseEntity.thumbnail = readText(parser);
                         break;
+                    case "url":
+                        getEbooksResponseEntity.url = readText(parser);
+                        break;
                     default:
                         skip(parser);
                 }
@@ -109,6 +111,7 @@ public class GetEbooksXmlParser extends XmlParser {
     public class GetEbooksResponseEntity {
         public String title;
         public String code;
+        public String url;
         public String thumbnail;
 
         GetEbooksResponseEntity() {

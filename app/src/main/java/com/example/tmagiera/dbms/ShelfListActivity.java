@@ -7,6 +7,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.tmagiera.dbms.tasks.GetShelfContentTask;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import de.greenrobot.event.EventBus;
 
@@ -41,6 +45,16 @@ public class ShelfListActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shelf_list);
 
+        ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(this);
+        config.threadPriority(Thread.NORM_PRIORITY - 2);
+        config.denyCacheImageMultipleSizesInMemory();
+        config.diskCacheFileNameGenerator(new Md5FileNameGenerator());
+        config.diskCacheSize(50 * 1024 * 1024); // 50 MiB
+        config.tasksProcessingOrder(QueueProcessingType.LIFO);
+        config.writeDebugLogs(); // Remove for release app
+
+        // Initialize ImageLoader with configuration.
+        ImageLoader.getInstance().init(config.build());
         EventBus.getDefault().register(this);
 
         if (findViewById(R.id.shelf_detail_container) != null) {

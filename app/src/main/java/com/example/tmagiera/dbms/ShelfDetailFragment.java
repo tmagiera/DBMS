@@ -5,7 +5,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 
 /**
  * A fragment representing a single Shelf detail screen.
@@ -25,16 +30,25 @@ public class ShelfDetailFragment extends Fragment {
      */
     private ContentEntity mItem;
 
+    DisplayImageOptions options;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public ShelfDetailFragment() {
+        options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .considerExifParams(true)
+                .displayer(new SimpleBitmapDisplayer())
+                .build();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             // Load the dummy content specified by the fragment
@@ -51,7 +65,9 @@ public class ShelfDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.shelf_detail)).setText(mItem.getTitle());
+            ((TextView) rootView.findViewById(R.id.shelf_detail_caption)).setText(mItem.getTitle());
+            ImageView imageView = (ImageView) rootView.findViewById(R.id.shelf_detail_image);
+            ImageLoader.getInstance().displayImage(mItem.getThumbnail(), imageView, options);
         }
 
         return rootView;

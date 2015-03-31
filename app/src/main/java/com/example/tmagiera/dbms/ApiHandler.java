@@ -109,7 +109,8 @@ public class ApiHandler {
                         ContentEntity contentEntity = new ContentEntity();
                         contentEntity.setTitle(contentDetails.title);
                         contentEntity.setCode(contentDetails.code);
-                        contentEntity.setThumbnail(contentDetails.thumbnail);
+                        contentEntity.setThumbnail(contentDetails.url + "/" + contentDetails.thumbnail);
+                        contentEntity.setUrl(contentDetails.url);
                         contentEntities.add(contentEntity);
                     }
                     Log.d(this.getClass().getSimpleName(), "Content data details items: " + detailsData.size());

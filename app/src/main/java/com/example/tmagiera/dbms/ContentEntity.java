@@ -9,7 +9,18 @@ public class ContentEntity {
     private String title;
     private String thumbnail;
 
+    private String url;
+
     ContentEntity() {}
+
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public int getId() {
         return id;
