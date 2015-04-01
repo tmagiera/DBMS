@@ -111,6 +111,7 @@ public class ApiHandler {
                         contentEntity.setCode(contentDetails.code);
                         contentEntity.setThumbnail(contentDetails.url + "/" + contentDetails.thumbnail);
                         contentEntity.setUrl(contentDetails.url);
+
                         contentEntities.add(contentEntity);
                     }
                     Log.d(this.getClass().getSimpleName(), "Content data details items: " + detailsData.size());
@@ -121,7 +122,6 @@ public class ApiHandler {
             }
 
             return contentEntities;
-
         } catch (Exception e) {
             Log.d(this.getClass().getSimpleName(), Log.getStackTraceString(e));
         }
